@@ -22,7 +22,7 @@ EXPOSE 80
 RUN apt-get update && apt-get install locate mlocate
 
 #Install GIT
-#RUN apt-get update && apt-get install -y git-core
+# RUN apt-get install -y git-core
 
 #PHP PDO 
 RUN docker-php-ext-install pdo
