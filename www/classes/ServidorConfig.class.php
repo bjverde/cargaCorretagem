@@ -25,7 +25,7 @@ class ServidorConfig {
      */
     private function __construct() {
         $root     = $_SERVER['DOCUMENT_ROOT'];
-        $nome_ini = 'resolucao_cnmp173.ini';
+        $nome_ini = 'carga_corretagem.ini';
         $ini_path = $root .DS. 'config' . DS . $nome_ini;
         $ini_conf = null;
         if(file_exists($ini_path)){
