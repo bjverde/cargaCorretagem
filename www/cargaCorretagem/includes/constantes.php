@@ -16,7 +16,7 @@ if( $ambiente == 'produção' || $ambiente == 'producao' ) {
 define('SYSTEM_NAME'    , 'Carga PDF Seu Mestre');
 define('SYSTEM_NAME_SUB', $ambiente);
 define('SYSTEM_ACRONYM' , 'sm');
-define('SYSTEM_VERSION' , '1.0.0');
+define('SYSTEM_VERSION' , '0.0.0');
 define('APLICATIVO'     , SYSTEM_ACRONYM);
 if ( !defined('DS') ){ define('DS'   , DIRECTORY_SEPARATOR); }
 
