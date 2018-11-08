@@ -2,9 +2,7 @@
 
 class Arquivo {
     private $nome = null;
-    private $numero = null;
     private $data = null;
-    private $tipo = null;
 
     
     /**
@@ -267,19 +265,13 @@ class Arquivo {
      * Gera o nome do arquivo a partir do tipo e data e numero.
      */
     public function getLink(){
-        $tipoDocumento = $this->getTipo();
-        $numero        = $this->getNumero();
         $data          = $this->getData();
-        
-        $numero = preg_replace("/[^a-zA-Z0-9]/", "", $numero);
-        
-        if(empty($tipoDocumento)) throw new InvalidArgumentException(Mensagem::ERRO_EXECUCAO);
-        if(empty($numero))        throw new InvalidArgumentException(Mensagem::ERRO_EXECUCAO.' Numero errado.');
+
         if(empty($data))          throw new InvalidArgumentException(Mensagem::ERRO_EXECUCAO);
         
         $nome          = $data.'_'.$tipoDocumento.'_'.$numero.'.pdf';
         $this->setNome($nome);        
-        $url = '/'.$tipoDocumento.'/'.$this->getNome();
+        $url = $this->getNome();
         return $url;
     }
     
