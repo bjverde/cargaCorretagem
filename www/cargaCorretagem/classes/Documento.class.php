@@ -49,10 +49,16 @@ class Documento {
 	 * @return DocumentoVO
 	 */
 	private static function trataArquivo( DocumentoVO $objVo ){
-	    $arquivo = new Arquivo();
-	    $arquivo->setTipo($objVo->getTipo());
-	    $arquivo->setNumero($objVo->getNumero());
-	    $arquivo->setData($objVo->getDt());
+
+		$format = 'YmdHis';
+		$data = DateTimeHelper::getNowFormat($format);
+		$objVo->setDt_inclusao( $data );
+
+		$arquivoTMP = $objVo->getArquivo();
+
+		$arquivo = new Arquivo();
+		$arquivo->setNome( $arquivoTMP['arquivo_name'] );
+	    $arquivo->setData($objVo->getDt_inclusao());
 	    $arquivo->setMetadadosHTTP($objVo->getArquivo());
 	    $link = $arquivo->getLink();
 	    //As duas linhas abaixo serão utilizadas para gravar os arquivos tambem no file system
@@ -60,7 +66,7 @@ class Documento {
 	    $arquivo->moveArquivoParaDestino();
 		$objVo->setLink($link);
 	    
-	    $arquivoTMP = $objVo->getArquivo();
+	    
 	    $arquivoTMP['arquivo_name'] = $arquivo->getNome();
 		$arquivoTMP['arquivo_name_apache'] = $arquivo->getNomeCanonico();
 		$arquivoTMP['arquivo_name'] = 't.pdf';
