@@ -40,10 +40,8 @@ class ServidorConfig {
             }
         }
         
-        $this->perfilMongo       = $ini_conf['ds-mongo'];
         $this->perfilAdm         = $ini_conf['ds-adm'];
         $this->config 			 = $ini_conf['config'];
-        $this->usuarios          = $ini_conf['usuarios'];
     }
     
     /**
