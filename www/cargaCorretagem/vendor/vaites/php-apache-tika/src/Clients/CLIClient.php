@@ -115,11 +115,11 @@ class CLIClient extends Client
             return $this->cache[sha1($file)][$type];
         }
 
-        // check the request
-        parent::checkRequest($type, $file);
-
         // command arguments
         $arguments = $this->getArguments($type, $file);
+
+        // check the request
+        $file = parent::checkRequest($type, $file);
 
         // add last argument
         if($file)
@@ -140,6 +140,12 @@ class CLIClient extends Client
             // fix for invalid? json returned only with images
             $response = str_replace(basename($file) . '"}{', '", ', $response);
 
+            // on Windows, response comes in another charset
+            if(defined('PHP_WINDOWS_VERSION_MAJOR'))
+            {
+                $response = utf8_encode($response);
+            }
+
             $response = Metadata::make($response, $file);
         }
 
@@ -159,7 +165,7 @@ class CLIClient extends Client
      * @return  null|string
      * @throws  \Exception
      */
-    protected function exec($command)
+    public function exec($command)
     {
         // run command
         $exit = -1;
@@ -184,11 +190,6 @@ class CLIClient extends Client
             }
             fclose($pipes[1]);
             $exit = proc_close($process);
-        }
-        // exception if command fails
-        else
-        {
-            throw new Exception("Error running command $command");
         }
 
         // exception if exit value is not zero
@@ -236,6 +237,18 @@ class CLIClient extends Client
 
             case 'text-main':
                 $arguments[] = '--text-main';
+                break;
+
+            case 'mime-types':
+                $arguments[] = '--list-supported-types';
+                break;
+
+            case 'detectors':
+                $arguments[] = '--list-detectors';
+                break;
+
+            case 'parsers':
+                $arguments[] = '--list-parsers';
                 break;
 
             case 'version':

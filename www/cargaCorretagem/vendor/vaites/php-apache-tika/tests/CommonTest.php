@@ -36,6 +36,7 @@ class CommonTest extends PHPUnit_Framework_TestCase
      * @param null      $name
      * @param array     $data
      * @param string    $dataName
+     * @throws \Exception
      */
     public function __construct($name = null, array $data = array(), $dataName = '')
     {
@@ -85,5 +86,13 @@ class CommonTest extends PHPUnit_Framework_TestCase
     public function testGetSupportedVersions()
     {
         $this->assertTrue(in_array('1.10', Client::getSupportedVersions()));
+    }
+
+    /**
+     * Is version supported vtest
+     */
+    public function testIsVersionSupported()
+    {
+        $this->assertTrue(Client::isVersionSupported('1.10'));
     }
 }

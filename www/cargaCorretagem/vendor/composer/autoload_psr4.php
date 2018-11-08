@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Vaites\\ApacheTika\\' => array($vendorDir . '/vaites/php-apache-tika/src'),
-    'MongoDB\\' => array($vendorDir . '/mongodb/mongodb/src'),
 );

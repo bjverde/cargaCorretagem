@@ -61,7 +61,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
      */
     public function testAppExitValue()
     {
-        $path = self::$binaries . '/tika-app-' . self::$version . '.jar';
+        $path = self::getPathForVersion(self::$version);
 
         try
         {
@@ -84,7 +84,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
      */
     public function testAppJavaBinary()
     {
-        $path = self::$binaries . '/tika-app-' . self::$version . '.jar';
+        $path = self::getPathForVersion(self::$version);
 
         try
         {
@@ -129,6 +129,21 @@ class ErrorTest extends PHPUnit_Framework_TestCase
         catch(Exception $exception)
         {
             $this->assertEquals(7, $exception->getCode());
+        }
+    }
+
+    /**
+     * Test invalidrequest options
+     */
+    public function testRequestRestrictedOptions()
+    {
+        try
+        {
+            $client = Client::make('localhost', 9998, [CURLOPT_PUT => false]);
+        }
+        catch(Exception $exception)
+        {
+            $this->assertEquals(3, $exception->getCode());
         }
     }
 
@@ -229,6 +244,28 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test wrong request type for all clients
+     *
+     * @dataProvider    parameterProvider
+     *
+     * @param   array   $parameters
+     */
+    public function testRequestType($parameters)
+    {
+        try
+        {
+            $client = call_user_func_array(['Vaites\ApacheTika\Client', 'make'], $parameters);
+            $client->request('bad');
+
+            $this->fail();
+        }
+        catch(Exception $exception)
+        {
+            $this->assertContains('Unknown type bad', $exception->getMessage());
+        }
+    }
+
+    /**
      * Test nonexistent local file for all clients
      *
      * @dataProvider    parameterProvider
@@ -273,28 +310,6 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test wrong request type for all clients
-     *
-     * @dataProvider    parameterProvider
-     *
-     * @param   array   $parameters
-     */
-    public function testRequestType($parameters)
-    {
-        try
-        {
-            $client = call_user_func_array(['Vaites\ApacheTika\Client', 'make'], $parameters);
-            $client->request('bad');
-
-            $this->fail();
-        }
-        catch(Exception $exception)
-        {
-            $this->assertContains('Unknown type bad', $exception->getMessage());
-        }
-    }
-
-    /**
      * Client parameters provider
      *
      * @return array
@@ -303,8 +318,19 @@ class ErrorTest extends PHPUnit_Framework_TestCase
     {
         return
         [
-            [[self::$binaries . '/tika-app-' . self::$version . '.jar']],
+            [[self::getPathForVersion(self::$version)]],
             [['localhost', 9998]]
         ];
+    }
+
+    /**
+     * Get the full path of Tika app for a specified version
+     *
+     * @param   string  $version
+     * @return  string
+     */
+    private static function getPathForVersion($version)
+    {
+        return self::$binaries . "/tika-app-{$version}.jar";
     }
 }

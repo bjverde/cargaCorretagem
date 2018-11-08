@@ -30,7 +30,7 @@ to work with the new versions of the tool.
 * Support for local and remote resources
 * No heavyweight library dependencies
 * Compatible with Apache Tika 1.7 or greater
-    * Tested up to 1.18
+    * Tested up to 1.19.1
 
 ## Requirements
 
@@ -47,7 +47,9 @@ to work with the new versions of the tool.
 
 Install using Composer:
 
-    composer require vaites/php-apache-tika
+```php
+composer require vaites/php-apache-tika
+```
 
 If you want to use OCR you must install [Tesseract](https://github.com/tesseract-ocr/tesseract):
 
@@ -61,31 +63,41 @@ The library assumes `tesseract` binary is in path, so you can compile it yoursel
 
 Start Apache Tika server with [caution](http://www.openwall.com/lists/oss-security/2015/08/13/5):
 
-    java -jar tika-server-x.xx.jar
-    
+```bash
+java -jar tika-server-x.xx.jar
+```
+
 If you are using JRE instead of JDK, you must run if you have Java 9 or greater:
 
-    java --add-modules java.se.ee -jar tika-server-x.xx.jar
-    
+```bash
+java --add-modules java.se.ee -jar tika-server-x.xx.jar
+```
+
 Instantiate the class:
 
-    $client = \Vaites\ApacheTika\Client::make('localhost', 9998);           // server mode (default)
-    $client = \Vaites\ApacheTika\Client::make('/path/to/tika-app.jar');     // app mode 
+```php
+$client = \Vaites\ApacheTika\Client::make('localhost', 9998);           // server mode (default)
+$client = \Vaites\ApacheTika\Client::make('/path/to/tika-app.jar');     // app mode 
+```
 
 Use the class to extract text from documents:
 
-    $language = $client->getLanguage('/path/to/your/document');
-    $metadata = $client->getMetadata('/path/to/your/document');
+```php
+$language = $client->getLanguage('/path/to/your/document');
+$metadata = $client->getMetadata('/path/to/your/document');
 
-    $html = $client->getHTML('/path/to/your/document');
-    $text = $client->getText('/path/to/your/document');
+$html = $client->getHTML('/path/to/your/document');
+$text = $client->getText('/path/to/your/document');
+```
 
 Or use to extract text from images:
 
-    $client = \Vaites\ApacheTika\Client::make($host, $port);
-    $metadata = $client->getMetadata('/path/to/your/image');
+```php
+$client = \Vaites\ApacheTika\Client::make($host, $port);
+$metadata = $client->getMetadata('/path/to/your/image');
 
-    $text = $client->getText('/path/to/your/image');
+$text = $client->getText('/path/to/your/image');
+```
     
 You can use an URL instead of a file path and the library will download the file and pass it to Apache Tika. There's 
 **no need** to add `-enableUnsecureFeatures -enableFileUrl` to command line when starting the server, as described 
@@ -93,57 +105,101 @@ You can use an URL instead of a file path and the library will download the file
 
 ### Methods
 
-Tika related methods:
+Here are the full list of available methods
 
-    $client->getMetadata($file);
-    $client->getLanguage($file);
-    $client->getMIME($file);
-    $client->getHTML($file);
-    $client->getText($file);
-    $client->getMainText($file);
+#### Common
+
+Tika file related methods:
+
+```php
+$client->getMetadata($file);
+$client->getLanguage($file);
+$client->getMIME($file);
+$client->getHTML($file);
+$client->getText($file);
+$client->getMainText($file);
+```
     
-Get the version of current Tika app/server:
+Other Tika related methods:
 
-    $client->getVersion();
+```php
+$client->getSupportedMIMETypes();
+$client->getAvailableDetectors();
+$client->getAvailableParsers();
+$client->getVersion();
+```
     
-Get the full list of Apacke Tika supported versions:
+Supported versions related methods:
 
-    $client->getSupportedVersions();
+```php
+$client->getSupportedVersions();
+$client->isVersionSupported($version);
+```
 
 Set/get a callback for sequential read of response:
 
-    $client->setCallback($callback);
-    $client->getCallback();
+```php
+$client->setCallback($callback);
+$client->getCallback();
+```
     
 Set/get the chunk size for secuential read:
 
-    $client->setChunkSize($size);
-    $client->getChunkSize();
+```php
+$client->setChunkSize($size);
+$client->getChunkSize();
+```
+    
+Enable/disable the internal remote file downloader:
+
+```php
+$client->setDownloadRemote(true);
+$client->getDownloadRemote();
+```
+
+#### Command line client
     
 Set/get JAR/Java paths (only CLI mode):
 
-    $client->setPath($path);
-    $client->getPath();
-    
-    $client->setJava($java);
-    $client->getJava();
-    
-Set/get host properties (only server mode):
+```php
+$client->setPath($path);
+$client->getPath();
 
-    $client->setHost($host);
-    $client->getHost();
-    
-    $client->setPort($port);
-    $client->getPort();
-    
-    $client->setRetries($retries);
-    $client->getRetries();
-    
-Set/get [cURL client options](http://php.net/manual/en/function.curl-setopt.php) (only server mode):
+$client->setJava($java);
+$client->getJava();
+```
 
-    $client->setOptions($options);
-    $client->getOptions();
+#### Web client
     
+Set/get host properties
+
+```php
+$client->setHost($host);
+$client->getHost();
+
+$client->setPort($port);
+$client->getPort();
+
+$client->setRetries($retries);
+$client->getRetries();
+```
+    
+Set/get [cURL client options](http://php.net/manual/en/function.curl-setopt.php)
+
+```php
+$client->setOptions($options);
+$client->getOptions();
+$client->setOption($option, $value);
+$client->getOption($option);
+```
+
+Set/get cURL client common options:
+
+```php
+$client->setTimeout($seconds);
+$client->getTimeout();
+```
+
 ## Tests
 
 Tests are designed to **cover all features for all supported versions** of Apache Tika in app mode and server mode. 

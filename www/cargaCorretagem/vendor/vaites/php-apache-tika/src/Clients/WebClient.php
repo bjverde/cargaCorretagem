@@ -47,7 +47,7 @@ class WebClient extends Client
     protected $retries = 3;
 
     /**
-     * cURL options
+     * Default cURL options
      *
      * @var array
      */
@@ -65,6 +65,7 @@ class WebClient extends Client
      *
      * @param   string  $host
      * @param   int     $port
+     * @param   array   $options
      * @throws  \Exception
      */
     public function __construct($host = null, $port = null, $options = [])
@@ -83,6 +84,8 @@ class WebClient extends Client
         {
             $this->setOptions($options);
         }
+
+        $this->setDownloadRemote(true);
 
         $this->getVersion(); // exception if not running
     }
@@ -157,7 +160,7 @@ class WebClient extends Client
     }
 
     /**
-     * Get the options
+     * Get all the options
      *
      * @return  null|array
      */
@@ -167,17 +170,75 @@ class WebClient extends Client
     }
 
     /**
-     * Set the options
+     * Get an specified option
+     *
+     * @param   string  $key
+     * @return  mixed
+     */
+    public function getOption($key)
+    {
+        return isset($this->options[$key]) ? $this->options[$key] : null;
+    }
+
+    /**
+     * Set a cURL option to be set with curl_setopt()
+     *
+     * @link    http://php.net/manual/en/curl.constants.php
+     * @link    http://php.net/manual/en/function.curl-setopt.php
+     * @param   string  $key
+     * @param   mixed   $value
+     * @return  $this
+     * @throws  \Exception
+     */
+    public function setOption($key, $value)
+    {
+        if(in_array($key, [CURLINFO_HEADER_OUT, CURLOPT_PUT, CURLOPT_RETURNTRANSFER]))
+        {
+            throw new Exception("Value for cURL option $key cannot be modified", 3);
+        }
+
+        $this->options[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Set the cURL options
      *
      * @param   array   $options
      * @return  $this
+     * @throws  \Exception
      */
     public function setOptions($options)
     {
         foreach($options as $key => $value)
         {
-            $this->options[$key] = $value;
+            $this->setOption($key, $value);
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the timeout value for cURL
+     *
+     * @return  int
+     */
+    public function getTimeout()
+    {
+        return $this->getOption(CURLOPT_TIMEOUT);
+    }
+
+    /**
+     * Set the timeout value for cURL
+     *
+     * @param   int     $value
+     * @return  $this
+     * @throws  \Exception
+     */
+    public function setTimeout($value)
+    {
+        $this->setOption(CURLOPT_TIMEOUT, (int) $value);
 
         return $this;
     }
@@ -204,11 +265,11 @@ class WebClient extends Client
             $retries[sha1($file)] = $this->retries;
         }
 
-        // check the request
-        parent::checkRequest($type, $file);
-
         // parameters for cURL request
         list($resource, $headers) = $this->getParameters($type, $file);
+
+        // check the request
+        $file = parent::checkRequest($type, $file);
 
         // cURL options
         $options = $this->getCurlOptions($type, $file);
@@ -339,6 +400,7 @@ class WebClient extends Client
     /**
      * Get the parameters to make the request
      *
+     * @link    https://wiki.apache.org/tika/TikaJAXRS#Specifying_a_URL_Instead_of_Putting_Bytes
      * @param   string  $type
      * @param   string  file
      * @return  array
@@ -347,6 +409,12 @@ class WebClient extends Client
     protected function getParameters($type, $file = null)
     {
         $headers = [];
+
+        if(!empty($file) && preg_match('/^http/', $file))
+        {
+            $headers[] = "fileUrl:$file";
+        }
+
         switch($type)
         {
             case 'html':
@@ -379,8 +447,11 @@ class WebClient extends Client
                 $headers[] = 'Accept: text/plain';
                 break;
 
+            case 'detectors':
+            case 'parsers':
+            case 'mime-types':
             case 'version':
-                $resource = 'version';
+                $resource = $type;
                 break;
 
             default:
@@ -422,7 +493,7 @@ class WebClient extends Client
         // remote file options
         if($file && preg_match('/^http/', $file))
         {
-            $options[CURLOPT_INFILE] = fopen($file, 'r');
+            //
         }
         // local file options
         elseif($file && file_exists($file) && is_readable($file))
@@ -431,11 +502,11 @@ class WebClient extends Client
             $options[CURLOPT_INFILESIZE] = filesize($file);
         }
         // other options for specific requests
-        elseif($type == 'version')
+        elseif(in_array($type,  ['detectors', 'mime-types', 'parsers', 'version']))
         {
             $options[CURLOPT_PUT] = false;
         }
-        // error
+        // file not accesible
         else
         {
             throw new Exception("File $file can't be opened");

@@ -6,6 +6,7 @@ php:
 - 7.0
 - 7.1
 - 7.2
+- 7.3
 sudo: false
 addons:
   apt:
@@ -28,6 +29,8 @@ env:
   - APACHE_TIKA_VERSION=1.16
   - APACHE_TIKA_VERSION=1.17
   - APACHE_TIKA_VERSION=1.18
+  - APACHE_TIKA_VERSION=1.19
+  - APACHE_TIKA_VERSION=1.19.1
 before_install:
 - pip install --user codecov
 install:

@@ -6,18 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit3e5d844af8657025b3d52292ba5256a0
 {
-    public static $files = array (
-        '3a37ebac017bc098e9a86b35401e7a68' => __DIR__ . '/..' . '/mongodb/mongodb/src/functions.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'V' => 
         array (
             'Vaites\\ApacheTika\\' => 18,
-        ),
-        'M' => 
-        array (
-            'MongoDB\\' => 8,
         ),
     );
 
@@ -25,10 +17,6 @@ class ComposerStaticInit3e5d844af8657025b3d52292ba5256a0
         'Vaites\\ApacheTika\\' => 
         array (
             0 => __DIR__ . '/..' . '/vaites/php-apache-tika/src',
-        ),
-        'MongoDB\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mongodb/mongodb/src',
         ),
     );
 
