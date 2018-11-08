@@ -247,11 +247,13 @@ class Arquivo {
      * Gera o nome do arquivo a partir do tipo e data e numero.
      */
     public function getLink(){
-        $data          = $this->getData();
+        $data = $this->getData();
+        $nome = $this->getNome();
 
         if(empty($data))          throw new InvalidArgumentException(Mensagem::ERRO_EXECUCAO);
+        if(empty($nome))          throw new InvalidArgumentException(Mensagem::ERRO_EXECUCAO.' nome em branco');
         
-        $nome          = $data.'_'.$tipoDocumento.'_'.$numero.'.pdf';
+        $nome          = $data.'_'.$nome;
         $this->setNome($nome);        
         $url = $this->getNome();
         return $url;
@@ -277,9 +279,7 @@ class Arquivo {
      * Retorna o nome canônico do arquivo, ou seja, seu path.
      */
     public function getNomeCanonico(){
-        $pasta        = $this->getTipo();
-        //$nomeCanonico = $this->getDiretorioRaiz().DS.$pasta.DS.$this->getNome().'.pdf';
-        $nomeCanonico = $this->getDiretorioRaiz().DS.$pasta.DS.$this->getNome();
+        $nomeCanonico = $this->getDiretorioRaiz().DS.$this->getNome();
         return $nomeCanonico;
     }
     
