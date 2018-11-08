@@ -19,7 +19,4 @@ define('USUARIO' , $perfilBancoAdm['USERNAME']);
 define('SENHA'   , $perfilBancoAdm['PASSWORD']);
 define('UTF8_DECODE'   , 0);
 
-$perfilMongo  = ServidorConfig::getInstancia()->getPerfilMongo();
-
-define('MONGO_DATABASE',$perfilMongo['dbname']);
 ?>

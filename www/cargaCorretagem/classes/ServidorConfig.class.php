@@ -75,17 +75,9 @@ class ServidorConfig {
     public function getPerfilAdm() {
         return $this->perfilAdm;
     }
-
-    public function getPerfilMongo() {
-        return $this->perfilMongo;
-    }
     
     public function getConfig(){
         return $this->config;
-    }
-
-    public function getUsuarios(){
-        return $this->usuarios;
     }
     
     public function getConfigParam($param){
