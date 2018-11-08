@@ -43,15 +43,6 @@ class Arquivo {
         return $this->nome;
     }
     //-------------------------------------------------------------------------
-    public function setNumero($numero)
-    {
-        $this->numero = $numero;
-    }
-    public function getNumero()
-    {
-        return $this->numero;
-    }
-    //-------------------------------------------------------------------------
     public function setData($data)
     {
         $this->data = $data;
@@ -59,15 +50,6 @@ class Arquivo {
     public function getData()
     {
         return $this->data;
-    }
-    //-------------------------------------------------------------------------
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
-    }
-    public function getTipo()
-    {
-        return $this->tipo;
     }    
     //-------------------------------------------------------------------------
     /**
