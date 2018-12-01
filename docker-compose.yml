@@ -51,8 +51,8 @@ services:
     networks:
       - formdin-network
     volumes:
-      - /c/Users/bjverde/Documents/Kitematic/cargaCorretagem/www:/var/www/html   # Win7 volume
-      - /c/Users/bjverde/Documents/Kitematic/cargaCorretagem/log:/var/log/       # Win7 volume
+      - ./www:/var/www/html   # Win7 volume
+      - ./log:/var/log/       # Win7 volume
     depends_on:
       - tika
       - database
