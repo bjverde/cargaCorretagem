@@ -7,5 +7,6 @@
 /.project
 /.buildpath
 /database/mysql
+/log/
 /www/base/
 /www/arquivos_pdf/
