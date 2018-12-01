@@ -28,13 +28,20 @@ situação: EM DESENVOLVIMENTO
 
 # Windows 7 
 
+## Requisito
+* Espaço em Disco : aproximadamente 2 GB no C:
+
 ## Instalação
 
 1. Instalar o [Docker ToolBox](https://docs.docker.com/toolbox/toolbox_install_windows/). O Docker tem todo o ambiente para rodar aplicação.
 1. Instalar o git para baixar com maior facilidade as atualizações.
-1. Em documentos do usuário criar Kitematic
+1. Em documentos do usuário criar a pasta Kitematic
 1. Entrar na pasta Kitematic via Windows Explorar, na barra de endereço digitar CMD
 1. No terminal do Windows digitar `git clone https://github.com/bjverde/cargaCorretagem.git`
+1. Editar o aquivo docker-compose.yml, pode usar um editor de texto simples (o bloco de notas ou notepad++ ou equivalente).
+1. Clicar no *Docker Quickstart Terminal*. Essa tarefa pode demorar alguns segundos
+1. Digitar o comando `/c/Users/<SEU USUARIO DO WINDOWS>/Documents/Kitematic/cargaCorretagem/`. Subistituindo o `<SEU USUARIO DO WINDOWS>` pelo seu usuario do windows.
+1. Digitar o comando `docker-compose up --build` - para montar todo o ambiente nescessario. Essa etapa é demorada e pode levar alguns minutos dependendo da velocidade da sua internet.
 
 
 
