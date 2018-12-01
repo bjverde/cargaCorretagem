@@ -41,6 +41,7 @@ RUN docker-php-ext-install pdo_mysql
 RUN apt-get install -y zlib1g-dev && docker-php-ext-install zip
 
 ####
+# Install XDeBug
 # https://imasters.com.br/devsecops/como-usar-o-xdebug-dentro-de-um-container-docker
 # https://github.com/felixfbecker/vscode-php-debug/issues/240
 # https://tsayao.com.br/735/docker-mysql-nginx-php-com-debug-visual-studio-code-e-intellij-idea-php-storm/
@@ -63,10 +64,7 @@ RUN echo "xdebug.remote_log=/var/log/apache2/xdebug.log" >> /usr/local/etc/php/c
     & echo "start" >> /var/log/apache2/xdebug.log \
     & chown www-data:www-data /var/log/apache2/xdebug.log
 
-#Creating index of files
-RUN updatedb
-
 RUN cat /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-#Get FormDin base
-#RUN cd /var/www/html; chmod +x install_base_formdin.sh; ./install_base_formdin.sh
+#Creating index of files
+RUN updatedb
