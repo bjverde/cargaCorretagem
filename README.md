@@ -32,7 +32,6 @@ situação: EM DESENVOLVIMENTO
 * Espaço em Disco : aproximadamente 2 GB no C:
 
 ## Instalação
-
 1. Instalar o [Docker ToolBox](https://docs.docker.com/toolbox/toolbox_install_windows/). O Docker tem todo o ambiente para rodar aplicação.
 1. Instalar o git para baixar com maior facilidade as atualizações.
 1. Em documentos do usuário criar a pasta Kitematic
@@ -42,9 +41,14 @@ situação: EM DESENVOLVIMENTO
 1. Clicar no *Docker Quickstart Terminal*. Essa tarefa pode demorar alguns segundos
 1. Digitar o comando `cd /c/Users/<SEU USUARIO DO WINDOWS>/Documents/Kitematic/cargaCorretagem/`. Subistituindo o `<SEU USUARIO DO WINDOWS>` pelo seu usuario do windows.
 1. Digitar o comando `docker-compose up --build` - para montar todo o ambiente nescessario. Essa etapa é demorada e pode levar alguns minutos dependendo da velocidade da sua internet.
+1. Acesse http://192.168.99.100/ será a ultima etapa da instalação. O Git irá abaixar o formDin e instalar no local correto.
 
 
-
+## Executando novamente
+1. Clicar no *Docker Quickstart Terminal*. Essa tarefa pode demorar alguns segundos.
+1. Digitar o comando `cd /c/Users/<SEU USUARIO DO WINDOWS>/Documents/Kitematic/cargaCorretagem/`. Subistituindo o `<SEU USUARIO DO WINDOWS>` pelo seu usuario do windows.
+1. Digitar o comando `docker-compose up` - será bem mais rapido que na instalação.
+1. Acesse http://192.168.99.100/ você será direcionado para o local correto
 
 # Windows 10
 
