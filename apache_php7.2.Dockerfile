@@ -6,8 +6,12 @@
 #How to build
 #sudo docker build -f apache_php7.2.Dockerfile . -t bjverde/php7.2
 
-#How use iterative mode
-#sudo docker exec -it apache_php /bin/bash
+#How use iterative mode container
+#sudo docker exec -it cargaCorretagem /bin/bash
+
+#How use iterative mode image
+#sudo docker run -p 80:80 -it devphp:7.2-deb-apache /bin/bash
+#sudo docker run -d -p 80:80 devphp:7.2-deb-apache
 
 #######################################
 FROM php:7.2-apache 
@@ -48,6 +52,9 @@ RUN apt-get install -y zlib1g-dev && docker-php-ext-install zip
 # https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug
 ####
 
+#Change PHP.INI for Desenv
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
 #PHP X-Degub install
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
@@ -65,6 +72,8 @@ RUN echo "xdebug.remote_log=/var/log/apache2/xdebug.log" >> /usr/local/etc/php/c
     & chown www-data:www-data /var/log/apache2/xdebug.log
 
 RUN cat /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+COPY --chown=www-data:www-data install_base_formdin.sh /var/www/install_base_formdin.sh
 
 #Creating index of files
 RUN updatedb
