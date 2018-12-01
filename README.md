@@ -40,7 +40,7 @@ situação: EM DESENVOLVIMENTO
 1. No terminal do Windows digitar `git clone https://github.com/bjverde/cargaCorretagem.git`
 1. Editar o aquivo docker-compose.yml, pode usar um editor de texto simples (o bloco de notas ou notepad++ ou equivalente).
 1. Clicar no *Docker Quickstart Terminal*. Essa tarefa pode demorar alguns segundos
-1. Digitar o comando `/c/Users/<SEU USUARIO DO WINDOWS>/Documents/Kitematic/cargaCorretagem/`. Subistituindo o `<SEU USUARIO DO WINDOWS>` pelo seu usuario do windows.
+1. Digitar o comando `cd /c/Users/<SEU USUARIO DO WINDOWS>/Documents/Kitematic/cargaCorretagem/`. Subistituindo o `<SEU USUARIO DO WINDOWS>` pelo seu usuario do windows.
 1. Digitar o comando `docker-compose up --build` - para montar todo o ambiente nescessario. Essa etapa é demorada e pode levar alguns minutos dependendo da velocidade da sua internet.
 
 
