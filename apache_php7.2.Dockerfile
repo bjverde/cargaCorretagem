@@ -67,3 +67,6 @@ RUN echo "xdebug.remote_log=/var/log/apache2/xdebug.log" >> /usr/local/etc/php/c
 RUN updatedb
 
 RUN cat /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+#Get FormDin base
+#RUN cd /var/www/html; chmod +x install_base_formdin.sh; ./install_base_formdin.sh

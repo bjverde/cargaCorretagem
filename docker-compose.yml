@@ -43,8 +43,8 @@ services:
     build:
       dockerfile: apache_php7.2.Dockerfile
       context: .
-    image: bjverde/php
-    container_name: apache_php
+    image: devphp:7.2-deb-apache
+    container_name: carga_web
     restart: always    
     ports:
       - "80:80"
@@ -52,6 +52,7 @@ services:
       - formdin-network
     volumes:
       - ./www:/var/www/html
+      - ./log:/var/log/
     depends_on:
       - tika
       - database
